@@ -7,3 +7,7 @@ class Students(BaseModel):
     usn:str
     phone_no:str
     address:str
+
+class User(BaseModel):
+    username:str
+    password:str

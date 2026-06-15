@@ -4,4 +4,4 @@ client=MongoClient("mongodb://localhost:27017/")
 
 db=client['college']
 collection=db['students']
-
+user_collection=db['users']

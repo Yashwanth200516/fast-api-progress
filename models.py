@@ -11,3 +11,4 @@ class Students(BaseModel):
 class User(BaseModel):
     username:str
     password:str
+    role:str="student"

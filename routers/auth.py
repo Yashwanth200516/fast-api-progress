@@ -28,11 +28,11 @@ def login_user(user:User):
             token=create_access_token(
                 {
                     "username":user.username,
-                    "role":"admin"
+                    "role":existing_user["role"]
                 }
             )
 
-            return {'access token':token}
+            return {'access_token':token}
     
     raise HTTPException(
         status_code=401,

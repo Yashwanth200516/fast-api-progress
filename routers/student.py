@@ -25,7 +25,7 @@ def get_student_by_id(student_id:str,current_user=Depends(get_current_user)):
     )
 
 @router.post('/students')
-def add_student(student:Students,current_user=Depends(get_current_user)):
+def add_student(student:Students):
     existing = collection.find_one(
     {"usn": student.usn.upper()}
     )
@@ -36,6 +36,7 @@ def add_student(student:Students,current_user=Depends(get_current_user)):
             detail="USN already exists"
         )
     student.name=student.name.title()
+    student.branch=student.branch.upper()
     student.usn=student.usn.upper()
     student.address=student.address.title()
     collection.insert_one(student.model_dump())
@@ -43,6 +44,12 @@ def add_student(student:Students,current_user=Depends(get_current_user)):
 
 @router.delete('/students/{student_id}')
 def delete_student(student_id:str,current_user=Depends(get_current_user)):
+    if current_user["role"]!="admin":
+        raise HTTPException(
+            status_code=403,
+            detail="only admins can delete students"
+        )
+    
     result=collection.delete_one({'usn':student_id.upper()})
     if result.deleted_count==1:
         return {'detail':'student deleted sucessfully'}

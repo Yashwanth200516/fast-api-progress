@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Students</title>
+  </head>
+  <body>
+    <h2>Students</h2>
+
+    <button onclick="loadStudents()">Load Students</button>
+    <button onclick="testDelete()">Test Delete</button>
+
+    <pre id="result"></pre>
+
+    <script>
+      async function loadStudents() {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch("http://127.0.0.1:8000/students", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        document.getElementById("result").innerText = JSON.stringify(
+          data,
+          null,
+          2,
+        );
+      }
+      async function testDelete() {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://127.0.0.1:8000/students/PUT_A_REAL_USN_HERE",
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        const data = await response.json();
+
+        console.log(data);
+      }
+    </script>
+  </body>
+</html>
